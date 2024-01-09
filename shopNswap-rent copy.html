@@ -138,7 +138,7 @@
                     echo '<div class="productCont">';
                     
                     // Display the image using the file path
-                    echo '<img src="' . $rent['RENT_IMAGE'] . '" alt="">';
+                    echo '<img src="php/' . $rent['RENT_IMAGE'] . '" alt="">';
                     
                     echo '<h4>' . $rent['RENT_NAME'] . '</h4>';
                     echo '<p>' . $rent['RENT_USER'] . '</p>';
@@ -156,12 +156,12 @@
         <div class="overlayRentRequest" id="overlayRentRequest"></div>
     
             <div class="modalRentRequest" id="modalRentRequest">
-                <form id="productForm" onsubmit="submitForm(); return false;">
-                    <label for="productPrice">Rental Duration (in hour/s): </label>
-                    <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+                <form id="productForm" onsubmit="submitRentReq(); return false;">
+                    <label for="rentreqDur">Rental Duration (in hour/s): </label>
+                    <input type="number" id="rentreqDur" name="rentreqDur" step="0.01" required>
     
-                    <label for="productStatus">Enter comment/s for the owner:</label>
-                    <textarea name="rentalComment" id="rentalComment" cols="30" rows="10" required></textarea>
+                    <label for="rentreqComment">Enter comment/s for the owner:</label>
+                    <textarea name="rentreqComment" id="rentreqComment" cols="30" rows="10" required></textarea>
 
                     <button type="submit">Submit Request</button>
                 </form>
@@ -187,24 +187,18 @@
             <div class="overlayRent" id="overlayRent"></div>
     
             <div class="modalRent" id="modalRent">
-                <form id="productForm" onsubmit="submitForm(); return false;">
-                    <label for="productName">Product Name:</label>
-                    <input type="text" id="productName" name="productName" required>
+                <form id="productForm" onsubmit="submitRentList(); return false;">
+                    <label for="rentName">Product Name:</label>
+                    <input type="text" id="rentName" name="rentName" required>
     
-                    <label for="productImage">Product Image:</label>
-                    <input type="file" id="productImage" name="productImage" accept="image/*" required>
+                    <label for="rentImage">Product Image:</label>
+                    <input type="file" id="rentImage" name="rentImage" accept="image/*" required>
     
-                    <label for="productPrice">Rental Rate (per hour):</label>
-                    <input type="number" id="productPrice" name="productPrice" step="0.01" required>
+                    <label for="rentPrice">Rental Rate (per hour):</label>
+                    <input type="number" id="rentPrice" name="rentPrice" step="0.01" required>
     
-                    <label for="productStatus">Product Status:</label>
-                    <select id="productStatus" name="productStatus" required>
-                        <option value="AVAILABLE">AVAILABLE</option>
-                        <option value="PRE-ORDER">PRE-ORDER</option>
-                    </select>
-    
-                    <label for="productCategory">Product Category:</label>
-                    <select id="productCategory" name="productCategory" required>
+                    <label for="rentCategory">Product Category:</label>
+                    <select id="rentCategory" name="rentCategory" required>
                         <option value="LAPTOP">LAPTOP</option>
                         <option value="CALCULATOR">CALCULATOR</option>
                         <option value="OTHERS">OTHERS</option>
@@ -339,19 +333,15 @@
                 document.getElementById('modalRentRequest').style.display = 'block';
             }
 
-            function submitForm() {
-                // Create FormData object
+            function submitRentList() {
                 var formData = new FormData();
-
-                // Append form fields to FormData
-                formData.append('productName', document.getElementById('productName').value);
-                formData.append('productPrice', document.getElementById('productPrice').value);
-                formData.append('productImage', document.getElementById('productImage').files[0]);
-                formData.append('productStatus', document.getElementById('productStatus').value);
-                formData.append('productCategory', document.getElementById('productCategory').value);
+                formData.append('rentName', document.getElementById('rentName').value);
+                formData.append('rentPrice', document.getElementById('rentPrice').value);
+                formData.append('rentImage', document.getElementById('rentImage').files[0]);
+                formData.append('rentCategory', document.getElementById('rentCategory').value);
 
                 // Add your AJAX code to submit form data to PHP script and insert into the database
-                fetch('php/addProduct.php', {
+                fetch('php/addRent.php', {
                     method: 'POST',
                     body: formData,
                 })
@@ -364,10 +354,39 @@
                 .then(data => {
                     console.log(data);
                     if (data.success) {
-                        alert('Product added successfully!');
+                        alert('Rental product listed successfully!');
                         location.reload(); // Reload the page
                     } else {
-                        alert('Failed to add product. Error: ' + data.error);
+                        alert('Failed to add rental product. Error: ' + data.error);
+                    }
+                    closeModal();
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            function submitRentReq() {
+                var formData = new FormData();
+                formData.append('rentreqDur', document.getElementById('rentreqDur').value);
+                formData.append('rentreqComment', document.getElementById('rentreqComment').value);
+
+                // Add your AJAX code to submit form data to PHP script and insert into the database
+                fetch('php/addRentRequest.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.success) {
+                        alert('Rent Request submitted successfully!');
+                        location.reload(); // Reload the page
+                    } else {
+                        alert('Failed to send rent request. Error: ' + data.error);
                     }
                     closeModal();
                 })

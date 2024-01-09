@@ -1820,7 +1820,8 @@ a {
 }
 
 /*LIST RENT FORM CSS and so on*/
-.overlayRent, .overlayRentRequest {
+.overlayRent, .overlayRentRequest, .overlayBorrowRequest,
+.overlayBorrow {
     display: none;
     position: fixed;
     top: 0;
@@ -1830,7 +1831,9 @@ a {
     background: rgba(0, 0, 0, 0.5);
 }
 
-.modalRent, .modalRentRequest {
+.modalRent, .modalRentRequest,
+.modalBorrowRequest,
+.modalBorrow {
     display: none;
     position: fixed;
     top: 50%;
@@ -1845,34 +1848,43 @@ a {
     border-radius: 10px;
 }
 
-.modalRent form,  .modalRentRequest form{
+.modalRent form,  .modalRentRequest form, 
+.modalBorrowRequest form,
+.modalBorrow form {
     display: flex;
     flex-direction: column;
 }
 
-.modalRent label, .modalRentRequest label {
+.modalRent label, .modalRentRequest label,
+.modalBorrowRequest label,
+.modalBorrow label {
     margin-bottom: 8px;
 }
 
 .modalRent input,
 .modalRent select,
 .modalRentRequest input,
-.modalRentRequest textarea {
+.modalRentRequest textarea,
+.modalBorrowRequest input,
+.modalBorrowRequest textarea,
+.modalBorrowRequest select,
+.modalBorrow input {
     margin-bottom: 16px;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-.modalRentRequest textarea {
+.modalRentRequest textarea,
+.modalBorrow textarea {
     max-width: 100%;
     max-height: 100px;
 }
 
 .modalRent button,
-.modalRent button,
 .modalRentRequest button,
-.modalRentRequest button   {
+.modalBorrowRequest button,
+.modalBorrow button   {
     background-color: #4caf50;
     color: #fff;
     padding: 10px 15px;
@@ -1882,31 +1894,43 @@ a {
 }
 
 .modalRent button:hover,
-.modalRentRequest button:hover {
+.modalRentRequest button:hover,
+.modalBorrowRequest button:hover,
+.modalBorrow button:hover  {
     background-color: #45a049;
 }
 
 .modalRent button,
 .modalRent [type="submit"],
 .modalRentRequest button,
-.modalRentRequest [type="submit"] {
+.modalRentRequest [type="submit"],
+.modalBorrowRequest button,
+.modalBorrowRequest [type="submit"],
+.modalBorrow button,
+.modalBorrow [type="submit"] {
     font-size: 16px;
 }
 
 .modalRent [type="file"],
-.modalRentRequest [type="file"] {
+.modalRentRequest [type="file"],
+.modalBorrowRequest [type="file"],
+.modalBorrow [type="file"]  {
     margin-top: 8px;
 }
 
 .modalRent button:last-child,
-.modalRentRequest button:last-child {
+.modalRentRequest button:last-child,
+.modalBorrowRequest button:last-child,
+.modalBorrow button:last-child   {
     background-color: rgb(29, 29, 70);
     margin-top: 8px;
     transition: 0.3s ease;
 }
 
 .modalRent button:last-child:hover,
-.modalRentRequest button:last-child:hover {
+.modalRentRequest button:last-child:hover,
+.modalBorrowRequest button:last-child:hover,
+.modalBorrow button:last-child:hover {
     background-color: rgb(51, 51, 112);
 }
 
